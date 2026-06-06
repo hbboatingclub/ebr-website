@@ -32,6 +32,22 @@ export const metadata: Metadata = {
     description: 'Duffy boat specialists. Controller rebuilds, lithium upgrades, restoration, and monthly maintenance.',
     images: [DEFAULT_OG_IMAGE],
   },
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon-32x32.png', type: 'image/png', sizes: '32x32' },
+      { url: '/favicon-16x16.png', type: 'image/png', sizes: '16x16' },
+    ],
+    apple: [{ url: '/favicon-180x180.png', sizes: '180x180', type: 'image/png' }],
+    other: [
+      {
+        rel: 'icon',
+        url: '/favicon-512x512.png',
+        sizes: '512x512',
+        type: 'image/png',
+      },
+    ],
+  },
   robots: { index: true, follow: true },
 };
 
