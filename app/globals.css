@@ -8943,27 +8943,96 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-/* Service page content card grids — flex-wrap balanced layout */
+/* Service page content card grids — count-balanced layout */
 .service-content-card-grid {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  gap: 1.25rem;
   justify-content: center;
-  gap: 24px;
+  width: 100%;
 }
 
 .service-content-card-grid > * {
   box-sizing: border-box;
-  flex: 0 1 340px;
-  max-width: 420px;
-  min-width: 280px;
+  min-width: 0;
   width: 100%;
+  max-width: 420px;
+  justify-self: center;
 }
 
 @media (max-width: 639px) {
+  .service-content-card-grid {
+    grid-template-columns: 1fr;
+  }
+
   .service-content-card-grid > * {
-    flex: 1 1 100%;
     max-width: none;
-    min-width: 0;
+    justify-self: stretch;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .service-content-card-grid[data-card-count='3'] {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    max-width: 56rem;
+    margin-inline: auto;
+  }
+
+  .service-content-card-grid[data-card-count='4'] {
+    grid-template-columns: repeat(2, minmax(260px, 420px));
+  }
+
+  .service-content-card-grid[data-card-count='5'] {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    max-width: 56rem;
+    margin-inline: auto;
+  }
+
+  .service-content-card-grid[data-card-count='5'] > * {
+    grid-column: span 2;
+  }
+
+  .service-content-card-grid[data-card-count='5'] > :nth-child(4) {
+    grid-column: 2 / span 2;
+  }
+
+  .service-content-card-grid[data-card-count='5'] > :nth-child(5) {
+    grid-column: 4 / span 2;
+  }
+
+  .service-content-card-grid[data-card-count='6'] {
+    grid-template-columns: repeat(2, minmax(260px, 420px));
+  }
+}
+
+@media (min-width: 1024px) {
+  .service-content-card-grid[data-card-count='3'] {
+    grid-template-columns: repeat(3, minmax(280px, 340px));
+  }
+
+  .service-content-card-grid[data-card-count='4'] {
+    grid-template-columns: repeat(2, minmax(280px, 420px));
+  }
+
+  .service-content-card-grid[data-card-count='5'] {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    max-width: 68rem;
+    margin-inline: auto;
+  }
+
+  .service-content-card-grid[data-card-count='5'] > * {
+    grid-column: span 2;
+  }
+
+  .service-content-card-grid[data-card-count='5'] > :nth-child(4) {
+    grid-column: 2 / span 2;
+  }
+
+  .service-content-card-grid[data-card-count='5'] > :nth-child(5) {
+    grid-column: 4 / span 2;
+  }
+
+  .service-content-card-grid[data-card-count='6'] {
+    grid-template-columns: repeat(3, minmax(260px, 340px));
   }
 }
 

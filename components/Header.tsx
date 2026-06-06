@@ -116,12 +116,12 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 header-glass ${
+      className={`fixed top-0 left-0 right-0 z-50 overflow-x-clip transition-all duration-500 header-glass ${
         scrolled ? 'header-glass-scrolled' : ''
       }`}
     >
-      <div className="container-site">
-        <div className="flex items-center justify-between h-16 md:h-[4.125rem]">
+      <div className="container-site min-w-0">
+        <div className="flex items-center justify-between gap-3 h-16 md:h-[4.125rem] min-w-0">
           <Link href="/" className="flex items-center shrink-0">
             <Image
               src="/images/logo.png"
@@ -133,7 +133,7 @@ export default function Header() {
             />
           </Link>
 
-          <nav className="hidden lg:flex items-center justify-center flex-1 gap-1">
+          <nav className="hidden xl:flex items-center justify-center flex-1 min-w-0 gap-0.5 2xl:gap-1">
             <Link href="/" className="nav-link">
               Home
             </Link>
@@ -216,25 +216,32 @@ export default function Header() {
             </Link>
           </nav>
 
-          <div className="hidden lg:flex items-center gap-6 shrink-0">
+          <div className="hidden xl:flex items-center gap-4 2xl:gap-6 shrink-0">
             <a
               href={SITE_PHONE_TEL}
-              className="font-mono text-[11px] text-white/50 hover:text-teal transition-colors duration-300 tracking-wider"
+              className="hidden 2xl:block font-mono text-[11px] text-white/50 hover:text-teal transition-colors duration-300 tracking-wider whitespace-nowrap"
             >
               {SITE_PHONE_DISPLAY}
             </a>
-            <Link href="/contact" className="btn-primary-glow !px-6 !py-2.5 !text-[11px]">
+            <Link href="/contact" className="btn-primary-glow !px-6 !py-2.5 !text-[11px] whitespace-nowrap shrink-0">
               Request Service
             </Link>
           </div>
 
-          <button
-            type="button"
-            className="lg:hidden text-white/80 min-h-11 min-w-11 flex items-center justify-center -mr-2 hover:text-white transition-colors relative z-[70]"
-            onClick={() => setMobileOpen((open) => !open)}
-            aria-expanded={mobileOpen}
-            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
-          >
+          <div className="flex xl:hidden items-center gap-2 sm:gap-3 shrink-0">
+            <Link
+              href="/contact"
+              className="btn-primary-glow !px-4 !py-2.5 !text-[10px] sm:!px-5 sm:!text-[11px] whitespace-nowrap shrink-0 hidden sm:inline-flex"
+            >
+              Request Service
+            </Link>
+            <button
+              type="button"
+              className="text-white/80 min-h-11 min-w-11 flex items-center justify-center -mr-2 hover:text-white transition-colors relative z-[70]"
+              onClick={() => setMobileOpen((open) => !open)}
+              aria-expanded={mobileOpen}
+              aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+            >
             {mobileOpen ? (
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
@@ -244,7 +251,8 @@ export default function Header() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             )}
-          </button>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -252,11 +260,11 @@ export default function Header() {
         <>
           <button
             type="button"
-            className="lg:hidden fixed inset-0 top-16 bg-black/50 z-[55]"
+            className="xl:hidden fixed inset-0 top-16 bg-black/50 z-[55]"
             aria-label="Close menu"
             onClick={closeMobile}
           />
-          <div className="lg:hidden relative z-[60] bg-ink/98 backdrop-blur-xl border-t border-white/[0.06] max-h-[calc(100vh-4rem)] overflow-y-auto">
+          <div className="xl:hidden relative z-[60] bg-ink/98 backdrop-blur-xl border-t border-white/[0.06] max-h-[calc(100vh-4rem)] overflow-y-auto">
             <div className="container-site py-6 space-y-0">
               <Link
                 href="/"
