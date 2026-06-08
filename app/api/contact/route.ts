@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import {
+  buildCustomerConfirmationEmailHtml,
+  buildCustomerConfirmationEmailText,
   buildServiceRequestEmailHtml,
+  CUSTOMER_CONFIRMATION_REPLY_TO,
+  CUSTOMER_CONFIRMATION_SUBJECT,
   getServiceRequestSubject,
   validateServiceRequest,
   type ServiceRequestPayload,
@@ -61,6 +65,21 @@ export async function POST(req: NextRequest) {
         { error: 'Failed to submit form' },
         { status: 500 }
       );
+    }
+
+    if (customerEmail) {
+      const { error: confirmationError } = await resend.emails.send({
+        from: process.env.RESEND_FROM_EMAIL ?? DEFAULT_FROM,
+        to: customerEmail,
+        replyTo: CUSTOMER_CONFIRMATION_REPLY_TO,
+        subject: CUSTOMER_CONFIRMATION_SUBJECT,
+        html: buildCustomerConfirmationEmailHtml(data),
+        text: buildCustomerConfirmationEmailText(data),
+      });
+
+      if (confirmationError) {
+        console.error('Customer confirmation email error:', confirmationError);
+      }
     }
 
     return NextResponse.json({ success: true }, { status: 200 });
