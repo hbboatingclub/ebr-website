@@ -115,6 +115,7 @@ export const CUSTOMER_CONFIRMATION_REPLY_TO = 'service@electricboatrepair.com';
 
 const CUSTOMER_SITE_URL = 'https://electricboatrepair.com';
 const CUSTOMER_SERVICES_URL = `${CUSTOMER_SITE_URL}/services`;
+const CUSTOMER_LOGO_URL = `${CUSTOMER_SITE_URL}/images/logo.png`;
 const CUSTOMER_PHONE_DISPLAY = '(949) 213-1500';
 const CUSTOMER_PHONE_TEL = 'tel:+19492131500';
 
@@ -126,8 +127,37 @@ function customerPlainValue(value: string | undefined, fallback = 'Not provided'
   return value?.trim() ? value.trim() : fallback;
 }
 
+/** Returns the first word of a trimmed name, or null when no usable name is provided. */
+export function getCustomerFirstName(name: string | undefined): string | null {
+  const trimmed = name?.trim();
+  if (!trimmed) {
+    return null;
+  }
+
+  const firstName = trimmed.split(/\s+/)[0]?.trim();
+  return firstName || null;
+}
+
+function getCustomerConfirmationGreetingHtml(name: string | undefined): string {
+  const firstName = getCustomerFirstName(name);
+  if (firstName) {
+    return `Thanks, ${escapeHtml(firstName)} — we&apos;ve received your request.`;
+  }
+
+  return `Thanks — we&apos;ve received your request.`;
+}
+
+function getCustomerConfirmationGreetingText(name: string | undefined): string {
+  const firstName = getCustomerFirstName(name);
+  if (firstName) {
+    return `Thanks, ${firstName} — we've received your request.`;
+  }
+
+  return `Thanks — we've received your request.`;
+}
+
 export function buildCustomerConfirmationEmailHtml(data: ServiceRequestPayload): string {
-  const greetingName = data.name?.trim() ? customerDisplayValue(data.name) : 'there';
+  const greeting = getCustomerConfirmationGreetingHtml(data.name);
 
   return `
 <!DOCTYPE html>
@@ -144,7 +174,12 @@ export function buildCustomerConfirmationEmailHtml(data: ServiceRequestPayload):
         <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" style="width:100%;max-width:600px;margin:0 auto;">
           <tr>
             <td style="padding:0 0 18px;text-align:center;">
-              <p style="margin:0 0 6px;font-family:Georgia,'Times New Roman',serif;font-size:24px;line-height:1.2;font-weight:400;letter-spacing:0.02em;color:#F7F4EC;">Electric Boat Repair</p>
+              <img
+                src="${CUSTOMER_LOGO_URL}"
+                alt="Electric Boat Repair"
+                width="200"
+                style="display:block;margin:0 auto 10px;max-width:200px;width:100%;height:auto;border:0;outline:none;text-decoration:none;"
+              />
               <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:11px;line-height:1.5;letter-spacing:0.14em;text-transform:uppercase;color:#49C7C3;">Premium Duffy &amp; Electric Boat Service</p>
               <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:14px auto 0;">
                 <tr>
@@ -156,10 +191,23 @@ export function buildCustomerConfirmationEmailHtml(data: ServiceRequestPayload):
           <tr>
             <td style="background-color:#F7F4EC;border:1px solid rgba(73,199,195,0.18);border-radius:4px;padding:32px 28px 30px;">
               <p style="margin:0 0 8px;font-family:Arial,Helvetica,sans-serif;font-size:11px;line-height:1.4;letter-spacing:0.12em;text-transform:uppercase;color:#B88A3B;">Request Received</p>
-              <h1 style="margin:0 0 18px;font-family:Georgia,'Times New Roman',serif;font-size:30px;line-height:1.15;font-weight:400;color:#17345A;">Thank you, ${greetingName}</h1>
-              <p style="margin:0 0 22px;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.65;color:#566173;">
-                Thank you for contacting Electric Boat Repair. We received your service request and our team will review the details shortly.
-              </p>
+              <h1 style="margin:0 0 22px;font-family:Georgia,'Times New Roman',serif;font-size:28px;line-height:1.2;font-weight:400;color:#17345A;">${greeting}</h1>
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:0 0 24px;background-color:#FFFFFF;border:1px solid rgba(23,52,90,0.1);border-radius:4px;">
+                <tr>
+                  <td style="padding:22px 20px;">
+                    <h2 style="margin:0 0 14px;font-family:Georgia,'Times New Roman',serif;font-size:22px;line-height:1.2;font-weight:400;color:#17345A;">What happens next?</h2>
+                    <p style="margin:0 0 10px;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.55;color:#17345A;">
+                      <span style="color:#49C7C3;font-weight:700;margin-right:8px;">&#10003;</span>We&apos;ll review your request
+                    </p>
+                    <p style="margin:0 0 10px;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.55;color:#17345A;">
+                      <span style="color:#49C7C3;font-weight:700;margin-right:8px;">&#10003;</span>A technician will contact you within 24 hours
+                    </p>
+                    <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.55;color:#17345A;">
+                      <span style="color:#49C7C3;font-weight:700;margin-right:8px;">&#10003;</span>For urgent issues, call or text <a href="${CUSTOMER_PHONE_TEL}" style="color:#17345A;text-decoration:underline;">${CUSTOMER_PHONE_DISPLAY}</a>
+                    </p>
+                  </td>
+                </tr>
+              </table>
               <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:0 0 24px;background-color:#FFFFFF;border:1px solid rgba(23,52,90,0.08);border-left:3px solid #49C7C3;border-radius:4px;">
                 <tr>
                   <td style="padding:22px 20px;">
@@ -186,9 +234,6 @@ export function buildCustomerConfirmationEmailHtml(data: ServiceRequestPayload):
                   </td>
                 </tr>
               </table>
-              <p style="margin:0 0 26px;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.65;color:#566173;">
-                We typically respond within one business day. If your boat is not running, taking on water, stuck at the dock, or the request is urgent, please call or text us directly.
-              </p>
               <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto 18px;">
                 <tr>
                   <td align="center" style="border-radius:3px;background-color:#49C7C3;">
@@ -228,20 +273,21 @@ export function buildCustomerConfirmationEmailHtml(data: ServiceRequestPayload):
 }
 
 export function buildCustomerConfirmationEmailText(data: ServiceRequestPayload): string {
-  const greetingName = data.name?.trim() ? data.name.trim() : 'there';
+  const greeting = getCustomerConfirmationGreetingText(data.name);
 
   return `
-Hi ${greetingName},
+${greeting}
 
-Thank you for contacting Electric Boat Repair. We received your service request.
+What happens next:
+- We'll review your request
+- A technician will contact you within 24 hours
+- For urgent issues, call or text ${CUSTOMER_PHONE_DISPLAY}
 
 Service Requested: ${customerPlainValue(data.serviceNeeded)}
 Boat / Model: ${customerPlainValue(data.boatType)}
 Boat Location: ${customerPlainValue(data.boatLocation)}
 Preferred Contact: ${customerPlainValue(data.contactPreference)}
 Message: ${customerPlainValue(data.description, 'No description provided.')}
-
-We typically respond within one business day. For urgent repairs, call or text ${CUSTOMER_PHONE_DISPLAY}.
 
 Electric Boat Repair
 ${CUSTOMER_SITE_URL}
