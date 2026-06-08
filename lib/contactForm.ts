@@ -127,19 +127,23 @@ function customerPlainValue(value: string | undefined, fallback = 'Not provided'
   return value?.trim() ? value.trim() : fallback;
 }
 
-/** Returns the first word of a trimmed name, or null when no usable name is provided. */
-export function getCustomerFirstName(name: string | undefined): string | null {
+/** First name for customer confirmation greeting: trimmed, first word only, proper case. */
+function getCustomerConfirmationFirstName(name: string | undefined): string | null {
   const trimmed = name?.trim();
   if (!trimmed) {
     return null;
   }
 
   const firstName = trimmed.split(/\s+/)[0]?.trim();
-  return firstName || null;
+  if (!firstName) {
+    return null;
+  }
+
+  return firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
 }
 
 function getCustomerConfirmationGreetingHtml(name: string | undefined): string {
-  const firstName = getCustomerFirstName(name);
+  const firstName = getCustomerConfirmationFirstName(name);
   if (firstName) {
     return `Thanks, ${escapeHtml(firstName)} — we&apos;ve received your request.`;
   }
@@ -148,7 +152,7 @@ function getCustomerConfirmationGreetingHtml(name: string | undefined): string {
 }
 
 function getCustomerConfirmationGreetingText(name: string | undefined): string {
-  const firstName = getCustomerFirstName(name);
+  const firstName = getCustomerConfirmationFirstName(name);
   if (firstName) {
     return `Thanks, ${firstName} — we've received your request.`;
   }
