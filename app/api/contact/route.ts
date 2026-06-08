@@ -13,7 +13,7 @@ import {
 
 // Phase 2: add Twilio SMS notifications here after email delivery succeeds.
 
-const DEFAULT_FROM = 'EBR Service Request <onboarding@resend.dev>';
+const DEFAULT_FROM = 'EBR | Electric Boat Repair <service@electricboatrepair.com>';
 
 export async function POST(req: NextRequest) {
   try {
