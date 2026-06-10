@@ -1,7 +1,10 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import './globals.css';
 import { SITE_PHONE_SCHEMA } from '@/lib/siteContact';
 import { DEFAULT_OG_IMAGE, SITE_URL } from '@/lib/seo';
+
+const GA_MEASUREMENT_ID = 'G-PS1SJPG02G';
 
 export const metadata: Metadata = {
   title: {
@@ -92,7 +95,22 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="font-body antialiased">{children}</body>
+      <body className="font-body antialiased">
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            window.gtag = gtag;
+            gtag('js', new Date());
+            gtag('config', '${GA_MEASUREMENT_ID}');
+          `}
+        </Script>
+        {children}
+      </body>
     </html>
   );
 }
