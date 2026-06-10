@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { trackServiceRequestLead } from '@/lib/analytics';
 import {
   isServiceRequestServerFailure,
   mapServiceRequestApiError,
@@ -87,6 +88,16 @@ export default function ServiceRequestForm({ compact = false, luxury = false }: 
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
+  const leadTrackedRef = useRef(false);
+
+  useEffect(() => {
+    if (!submitted || leadTrackedRef.current) {
+      return;
+    }
+
+    leadTrackedRef.current = true;
+    trackServiceRequestLead();
+  }, [submitted]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     if (e.target instanceof HTMLSelectElement || e.target instanceof HTMLInputElement) {
