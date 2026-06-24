@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { trackServiceRequestLead } from '@/lib/analytics';
 import {
   isServiceRequestServerFailure,
@@ -88,16 +88,6 @@ export default function ServiceRequestForm({ compact = false, luxury = false }: 
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
-  const leadTrackedRef = useRef(false);
-
-  useEffect(() => {
-    if (!submitted || leadTrackedRef.current) {
-      return;
-    }
-
-    leadTrackedRef.current = true;
-    trackServiceRequestLead();
-  }, [submitted]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     if (e.target instanceof HTMLSelectElement || e.target instanceof HTMLInputElement) {
@@ -140,6 +130,20 @@ export default function ServiceRequestForm({ compact = false, luxury = false }: 
         return;
       }
 
+      let submissionSucceeded = false;
+      try {
+        const payload = (await response.json()) as { success?: boolean };
+        submissionSucceeded = payload.success === true;
+      } catch {
+        submissionSucceeded = true;
+      }
+
+      if (!submissionSucceeded) {
+        setError(FALLBACK_ERROR);
+        return;
+      }
+
+      trackServiceRequestLead();
       setSubmitted(true);
     } catch {
       setError(FALLBACK_ERROR);

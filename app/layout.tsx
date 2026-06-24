@@ -4,7 +4,7 @@ import './globals.css';
 import { SITE_PHONE_SCHEMA } from '@/lib/siteContact';
 import { DEFAULT_OG_IMAGE, SITE_URL } from '@/lib/seo';
 
-const GA_MEASUREMENT_ID = 'G-PS1SJPG02G';
+import { GA_MEASUREMENT_ID } from '@/lib/gaConfig';
 
 export const metadata: Metadata = {
   title: {
