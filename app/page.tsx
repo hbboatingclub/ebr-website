@@ -18,7 +18,7 @@ import { buildPageMetadata } from '@/lib/seo';
 const homeMetadata = buildPageMetadata({
   title: 'Electric Boat Repair & Duffy Boat Specialists',
   description:
-    'EBR specializes in Duffy boat repair, controller rebuilds, lithium battery upgrades, charger systems, motor repair, restoration, and monthly maintenance across Orange County, Newport Harbor, Huntington Harbour, and Long Beach.',
+    'Expert Duffy boat repair, controller rebuilds, motor repair, lithium conversions & restoration. Mobile service from $120/hr. Call (949) 213-1500.',
   path: '/',
   image: '/images/hero-duffy.JPG',
 });
@@ -150,7 +150,7 @@ export default async function HomePage() {
                 className="home-hero__trust animate-fade-up opacity-0"
                 style={{ animationDelay: '280ms', animationFillMode: 'forwards' }}
               >
-                Newport · Huntington · Long Beach · Dana Point · Dockside specialists
+                Newport · Huntington · Long Beach · Dana Point · Mobile service from $120/hr
               </p>
 
               <div

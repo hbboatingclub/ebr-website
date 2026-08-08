@@ -2,7 +2,13 @@ import Link from 'next/link';
 import Image from 'next/image';
 import ServiceRequestForm from '@/components/ServiceRequestForm';
 import { SERVICE_AREAS } from '@/lib/serviceAreas';
-import { SITE_PHONE_DISPLAY, SITE_PHONE_SMS, SITE_PHONE_TEL } from '@/lib/siteContact';
+import {
+  SITE_EMAIL,
+  SITE_EMAIL_MAILTO,
+  SITE_PHONE_DISPLAY,
+  SITE_PHONE_SMS,
+  SITE_PHONE_TEL,
+} from '@/lib/siteContact';
 import { ebrImage } from '@/lib/mediaPaths';
 
 const formTips = [
@@ -67,10 +73,10 @@ export default function ContactPageView() {
                   <div>
                     <p className="hub-premium-sidebar-card__label">Email</p>
                     <a
-                      href="mailto:service@electricboatrepair.com"
+                      href={SITE_EMAIL_MAILTO}
                       className="hub-premium-sidebar-card__value hub-premium-sidebar-card__value--sm hover:text-teal transition-colors"
                     >
-                      service@electricboatrepair.com
+                      {SITE_EMAIL}
                     </a>
                   </div>
                   <div>
