@@ -618,12 +618,20 @@ h1, h2, h3, h4, h5, h6 {
     @apply text-[0.9375rem] text-gray-200/95 transition-[color,text-decoration-color] duration-300 hover:text-teal hover:underline underline-offset-[3px] decoration-teal/35 focus-visible:outline-none focus-visible:text-teal;
   }
 
+  .footer-premium__contact {
+    @apply text-[0.9375rem] leading-relaxed;
+  }
+
   .footer-premium__contact-phone {
-    @apply block text-[0.9375rem] text-gray-50/95 transition-[color,text-decoration-color] duration-300 hover:text-teal hover:underline underline-offset-[3px] decoration-teal/30;
+    @apply text-gray-50/95 transition-[color,text-decoration-color] duration-300 hover:text-teal hover:underline underline-offset-[3px] decoration-teal/30;
+  }
+
+  .footer-premium__contact-sep {
+    @apply text-gray-300/45 whitespace-pre;
   }
 
   .footer-premium__contact-email {
-    @apply block text-[0.9375rem] text-gray-300/75 transition-[color,text-decoration-color] duration-300 hover:text-teal/90 hover:underline underline-offset-[3px] decoration-teal/25;
+    @apply text-gray-300/75 transition-[color,text-decoration-color] duration-300 hover:text-teal/90 hover:underline underline-offset-[3px] decoration-teal/25;
   }
 
   .footer-premium__copy {

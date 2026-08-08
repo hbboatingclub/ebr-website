@@ -1,7 +1,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { SERVICE_AREAS } from '@/lib/serviceAreas';
-import { SITE_PHONE_DISPLAY, SITE_PHONE_TEL } from '@/lib/siteContact';
+import {
+  SITE_CONTACT_SEP,
+  SITE_EMAIL,
+  SITE_EMAIL_MAILTO,
+  SITE_PHONE_DISPLAY,
+  SITE_PHONE_TEL,
+} from '@/lib/siteContact';
 
 const serviceLinks = [
   { title: 'Controller Repair', href: '/services/controller-repair' },
@@ -40,14 +46,17 @@ export default function Footer() {
             <p className="footer-premium__copy mb-4 max-w-xs">
               Southern California&apos;s electric boat specialists. Expert Duffy repair, restoration, and ongoing harbor maintenance.
             </p>
-            <div className="space-y-2">
+            <p className="footer-premium__contact">
               <a href={SITE_PHONE_TEL} className="footer-premium__contact-phone">
                 {SITE_PHONE_DISPLAY}
               </a>
-              <a href="mailto:service@electricboatrepair.com" className="footer-premium__contact-email">
-                service@electricboatrepair.com
+              <span className="footer-premium__contact-sep" aria-hidden="true">
+                {SITE_CONTACT_SEP}
+              </span>
+              <a href={SITE_EMAIL_MAILTO} className="footer-premium__contact-email">
+                {SITE_EMAIL}
               </a>
-            </div>
+            </p>
           </div>
 
           {/* Services */}
